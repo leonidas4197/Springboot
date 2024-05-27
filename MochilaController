@@ -1,0 +1,137 @@
+package mochila.controller;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import mochila.model.Mochila;
+import mochila.model.MochilaRepository;
+
+@Controller
+public class MochilaController {
+
+	@Autowired 
+	private MochilaRepository mochilaM;
+	
+	@GetMapping("/")
+	public String ListaMochilas(Model model)
+	{
+		//Cargo todas las mochilas
+		List<Mochila> mochilas = mochilaM.findAll();
+		
+		//Asocio al atributo mochilas la lista de mochilas cargadas de BD
+		model.addAttribute("mochilas",mochilas);
+		
+		//Cargamos la vista thymeleaf (el html)
+		return "listado";
+	}
+	
+	@GetMapping("/mochila/nuevo")
+	public String nuevaMochila(Model model) {
+		//Creamos un objeto de tipo Entidad Mochila
+		Mochila mochila = new Mochila();
+		//Se lo pasamos al modelo para que llegue al formulario
+		model.addAttribute("mochila",mochila);
+		//Cargamos el formulario de insercion de mochila
+		return "crearMochila";
+	}
+	
+	@PostMapping ("/mochila/crear")
+	public String crearMochila(@ModelAttribute Mochila mochila)
+	{
+		mochilaM.save(mochila);
+		return "redirect:/";
+	}
+	
+	
+	@GetMapping("/mochila/editar/{id}")
+	public String editarMochila(@PathVariable Long id,Model model) {
+		
+	//Cargamos una mochila por ejemplo con el id 2
+	Optional<Mochila> datoBD = mochilaM.findById((long)id);
+	
+	if (datoBD.isPresent()) {
+		
+		model.addAttribute("mochila", datoBD.get());
+		
+		return "editar";
+	}
+		
+	  model.addAttribute ("error", "No se ha encontrado el registro en BD");
+	  return "error";
+	}
+	
+	@PostMapping("/mochila/modificar/{id}")
+	public String modificarMochila(@PathVariable Long id, @ModelAttribute Mochila mochila)
+	{
+		
+		
+		//Le asignamos el id para saber que mochila 
+		mochila.setId(id);
+		//Modificamos la mochila
+		mochilaM.save(mochila);
+		//redireccionamos el listado
+		return "redirect:/";
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Funcion que carga una mochila y la muestra detallado
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	
+	@GetMapping("/mochila/{id}")
+	public String principal(@PathVariable Long id,Model model)   {
+		
+		//Cargamos una mochila por ejemplo con el id 2
+		Optional<Mochila> datoBD = mochilaM.findById((long)id);
+		
+		//Si el findbyid nos ha devuelto una entidad
+		//de tipo mochila
+		//se ejecuta lo que hay dentro de la funcion 
+		//En particular añadimos la mochila al modelo
+		//para pasarselo
+		//A la plantilla html thymeleaf como atributo 
+		if (datoBD.isPresent()) {
+			
+			System.out.println(datoBD.get());
+			
+			model.addAttribute("mochila", datoBD.get());
+			
+			return "detalle";
+		}
+	
+		model.addAttribute("error", "No se ha encontrado el registro en BD");
+		return "error";
+	
+	}
+	
+	/**
+	 * Elimina la mochila con el id que le llegue como parametro
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/eliminar/{id}")
+	public String eliminarMochila(@PathVariable Long id,Model model)   {
+		
+		//Elminamos una mochila 
+		mochilaM.deleteById((long)id);
+
+		return "redirect:/";
+	}
+	
+}
