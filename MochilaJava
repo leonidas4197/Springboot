@@ -1,0 +1,97 @@
+package mochila.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Mochila {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	private String marca;
+	private String material;
+	private double peso;
+	private int numcompartimientos;
+	private String color;
+	private double precio;
+	
+	public Mochila() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Mochila(long id, String marca, String material, double peso, int numcompartimientos, String color,
+			double precio) {
+		super();
+		this.id = id;
+		this.marca = marca;
+		this.material = material;
+		this.peso = peso;
+		this.numcompartimientos = numcompartimientos;
+		this.color = color;
+		this.precio = precio;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+
+	public String getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(String material) {
+		this.material = material;
+	}
+
+	public double getPeso() {
+		return peso;
+	}
+
+	public void setPeso(double peso) {
+		this.peso = peso;
+	}
+
+	public int getNumcompartimientos() {
+		return numcompartimientos;
+	}
+
+	public void setNumcompartimientos(int numcompartimientos) {
+		this.numcompartimientos = numcompartimientos;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+	
+	
+
+	
+}
