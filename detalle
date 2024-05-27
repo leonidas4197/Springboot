@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Detalle de Mochilas</title>
+</head>
+<body>
+   <h1>Detalle de la mochila <span th:text="${mochila.id}"></span></h1>
+   
+   <label>id: </label>
+   <p th:text="${mochila.id}"></p>
+   <label>Marca: </label>
+   <p th:text="${mochila.marca}"></p>
+   <label>Material: </label>
+   <p th:text="${mochila.material}"></p>
+   <label>Peso: </label>
+   <p th:text="${mochila.peso}"></p>
+   <label>Número de compartimientos: </label>
+   <p th:text="${mochila.numcompartimientos}"></p>
+   <label>Color: </label>
+   <p th:text="${mochila.color}"></p>
+   <label>Precio: </label>
+   <p th:text="${mochila.precio}"></p>
+   
+   
+</body>
+
+</html>
